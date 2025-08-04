@@ -1,4 +1,5 @@
 const express = require("express");
+const { validateDroneRequest } = require("../util/validation");
 
 const {
   createDrone
@@ -6,6 +7,6 @@ const {
 
 const router = express.Router();
 
-router.post("/drones", createDrone);
+router.post("/drones", validateDroneRequest, createDrone);
 
 module.exports = router;
