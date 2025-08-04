@@ -22,7 +22,7 @@ const createDrone = async (droneData) => {
 
 const getAllDrones = async () => {
     try {
-        const drones = await Drone.find().sort({ serial: 1 });
+        const drones = await Drone.find().sort({ serial: 1 }).populate("medications");
         return drones;
     } catch (error) {
         console.error("Error fetching drones:", error);
@@ -32,7 +32,7 @@ const getAllDrones = async () => {
 
 const findBySerial = async (serial) => {
     try {
-        const drone = await Drone.findOne({ serial });
+        const drone = await Drone.findOne({ serial }).populate("medications");
         return drone;
     } catch (error) {
         console.error("Error fetching drone by serial:", error);
@@ -77,9 +77,11 @@ const reduceBatteryLevel = async () => {
     try {
         const drones = await getAllDrones();
         drones.forEach(async (drone) => {
+            if (drone.state !== "IDLE") {
             drone.batteryCapacity = Math.max(0, drone.batteryCapacity - 1);
             await drone.save();
             return drone;
+            }
         });
     } catch (error) {
         console.error(error);
@@ -105,7 +107,6 @@ const rechargeDrone = async (serial) => {
 };
 
 
-
 module.exports = {
     createDrone,
     getAllDrones,
@@ -113,7 +114,5 @@ module.exports = {
     getAvailableDrones,
     rechargeDrone,
     checkDronesBatteryLevels,
-    reduceBatteryLevel
-
-
+    reduceBatteryLevel,
 };

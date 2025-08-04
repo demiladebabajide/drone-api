@@ -32,6 +32,10 @@ const droneSchema = new Schema(
             enum: ["IDLE", "LOADING", "LOADED", "DELIVERING", "DELIVERED", "RETURNING"],
             default: "IDLE",
         },
+        medications: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Medication",
+        }],
     },
     {
         toJSON: {

@@ -39,5 +39,6 @@ app.get("/", (req, res) => {
 });
 
 app.use('/api', require('./routes/drone.route'));
+app.use('/api', require('./routes/dispatch.route'));
 
 module.exports = app;

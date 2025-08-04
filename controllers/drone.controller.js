@@ -61,7 +61,7 @@ const rechargeDrone = async (req, res) => {
     const { serial } = req.params;
     try {
         const drone = await droneService.rechargeDrone(serial);
-        res.status(200).json({ message: "Drone recharged successfully", drone });
+        res.status(200).json({ message: `Drone ${serial} fully charged!`, drone });
     } catch (error) {
         res.status(500).json({ message: "Error recharging drone", error: error.message });
     }
@@ -73,5 +73,5 @@ module.exports = {
     getAllDrones,
     getDroneBySerial,
     checkBatteryLevel,
-    rechargeDrone,
+    rechargeDrone
 };
