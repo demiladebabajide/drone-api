@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const port = 8000;
 const app = express();
 const cors = require("cors");
+const seedDrones = require("./seeds/drones");
 app.use(cors());
 
 app.use(express.json());
@@ -16,6 +17,9 @@ mongoose.connect("mongodb://localhost:27017/drone-api", {
     console.log("Connected to MongoDB successfully");
      app.listen(port, () => {
         console.log(`Server is running on http://localhost:${port}`);
+
+        seedDrones();
+        require("./jobs/droneBattery");
     });
 })
 .catch((err) => {
