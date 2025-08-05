@@ -1,5 +1,6 @@
 const Drone = require("../models/drone.model");
 const Medication = require("../models/medication.model");
+const logger = require("../util/logger");
 
 const loadDrone = async (serial, medicationData) => {
     try {
@@ -10,17 +11,17 @@ const loadDrone = async (serial, medicationData) => {
         const weight  = medicationData.weight;
         const totalWeight = drone.medications.reduce((acc, medication) => acc + medication.weight, 0) + Number(weight);
         if (totalWeight > drone.weight) {
-            console.error(`Drone ${drone.serial} capacity exceeded!`);
+            logger.error(`Drone ${drone.serial} capacity exceeded!`);
             throw new Error("Drone capacity exceeded!");
         }
 
         if (drone.state !== "IDLE" && drone.state !== "LOADING") {
-            console.error("Drone is currently unavailable");
+            logger.error("Drone is currently unavailable");
             throw new Error("Drone is currently unavailable");
         }
 
         if (drone.batteryCapacity < 25) {
-            console.error("Drone battery is too low");
+            logger.error("Drone battery is too low");
             throw new Error("Drone battery is too low");
         }
 
@@ -29,13 +30,13 @@ const loadDrone = async (serial, medicationData) => {
         drone.state = "LOADING";
         if (totalWeight === drone.weight) {
             drone.state = "LOADED";
-            console.log(`\n----------------------Drone ${serial} fully loaded...Reducing drone battery levels by 1% every second----------------------`);
+            logger.info(`\n              ----------------------Drone ${serial} fully loaded...Reducing drone battery levels by 1% every second----------------------`);
         }
         await drone.save(); 
         
         return drone;
     } catch (error) {
-        console.error("Error loading drone:", error);
+        logger.error("Error loading drone:", error);
         return new Error(`Error loading drone: ${error.message}`);
     }
 };
@@ -48,7 +49,7 @@ const getMedications = async (serial) => {
         }
         return drone.medications;
     } catch (error) {
-        console.error("Error fetching medications:", error);
+        logger.error("Error fetching medications:", error);
         throw new Error(`Error fetching medications: ${error.message}`);
     }
 };

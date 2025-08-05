@@ -8,6 +8,7 @@ const app = express();
 const cors = require("cors");
 const seedDrones = require("./seeds/drones");
 app.use(cors());
+const logger = require("./util/logger");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,16 +17,16 @@ mongoose.connect(MONGODB_URI, {
     useUnifiedTopology: true,
 })
     .then(() => {
-        console.log("Connected to MongoDB successfully");
+        logger.info("Connected to MongoDB successfully");
         app.listen(port, () => {
-            console.log(`Server is running on http://localhost:${port}`);
+            logger.info(`Server is running on http://localhost:${port}`);
 
             seedDrones();
             require("./jobs/droneBattery");
         });
     })
     .catch((err) => {
-        console.error("Error connecting to MongoDB:", err);
+        logger.error("Error connecting to MongoDB:", err);
     });
 
 

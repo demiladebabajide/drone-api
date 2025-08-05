@@ -1,5 +1,6 @@
 const Drone = require("../models/drone.model");
 const dispatchService = require("../services/dispatch.service");
+const logger = require("../util/logger");
 const drones = [
     {
         serial: "001",
@@ -41,10 +42,10 @@ async function seedDrones() {
         await Drone.insertMany(drones);
         await dispatchService.loadDrone("001", medication1);
         await dispatchService.loadDrone("002", medication2);
-        console.log("\n----------------------Drones seeded successfully----------------------");
-        console.log(JSON.stringify(await Drone.find()));
+        logger.info("\n              ----------------------Drones seeded successfully----------------------");
+        logger.info(JSON.stringify(await Drone.find()));
     } catch (error) {
-        console.error("Error seeding drones:", error);
+        logger.error("Error seeding drones:", error);
     }
 }
 

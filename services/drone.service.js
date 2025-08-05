@@ -1,4 +1,5 @@
 const Drone = require("../models/drone.model");
+const logger = require("../util/logger");
 
 const createDrone = async (droneData) => {
     try {
@@ -15,7 +16,7 @@ const createDrone = async (droneData) => {
         });
         return drone;
     } catch (error) {
-        console.error("Error creating drone:", error);
+        logger.error("Error creating drone:", error);
         return new Error(`Error creating drone: ${error}`);
     }
 };
@@ -25,7 +26,7 @@ const getAllDrones = async () => {
         const drones = await Drone.find().sort({ serial: 1 }).populate("medications");
         return drones;
     } catch (error) {
-        console.error("Error fetching drones:", error);
+        logger.error("Error fetching drones:", error);
         throw new Error(`Error fetching drones: ${error}`);
     }
 };
@@ -35,7 +36,7 @@ const findBySerial = async (serial) => {
         const drone = await Drone.findOne({ serial }).populate("medications");
         return drone;
     } catch (error) {
-        console.error("Error fetching drone by serial:", error);
+        logger.error("Error fetching drone by serial:", error);
         throw new Error(`Error fetching drone by serial: ${error}`);
     }
 };
@@ -46,7 +47,7 @@ const getAvailableDrones = async () => {
         return drones;
     }
     catch (error) {
-        console.error("Error fetching available drones:", error);
+        logger.error("Error fetching available drones:", error);
         throw new Error(`Error fetching available drones: ${error}`);
     }
 };
@@ -57,19 +58,19 @@ const checkDronesBatteryLevels = async () => {
         const drones = await getAllDrones();
         drones.forEach(drone => {
             if (drone.batteryCapacity <= 0) {
-                console.error(`Drone ${drone.serial} battery is empty. Recharging...`);
+                logger.error(`Drone ${drone.serial} battery is empty. Recharging...`);
                 drone.batteryCapacity = 100;
                 drone.save();
             }
             else if (drone.batteryCapacity < 20) {
-                console.warn(`Drone ${drone.serial} has low battery: ${drone.batteryCapacity}%`);
+                logger.warn(`Drone ${drone.serial} has low battery: ${drone.batteryCapacity}%`);
             }
             else {
-                console.log(`Drone ${drone.serial} battery health: ${drone.batteryCapacity}%`);
+                logger.info(`Drone ${drone.serial} battery health: ${drone.batteryCapacity}%`);
             }
         });
     } catch (error) {
-        console.error("Error checking drones battery levels:", error);
+        logger.error("Error checking drones battery levels:", error);
     }
 };
 
@@ -84,7 +85,7 @@ const reduceBatteryLevel = async () => {
             }
         });
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         throw new Error(`Error reducing drone battery level: ${error}`);
     }
 };
@@ -101,7 +102,7 @@ const rechargeDrone = async (serial) => {
         }
         return drone;
     } catch (error) {
-        console.error("Error charging drone battery:", error);
+        logger.error("Error charging drone battery:", error);
         throw new Error(`Error charging drone battery: ${error}`);
     }
 };
