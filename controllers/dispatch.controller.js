@@ -1,4 +1,6 @@
 const dispatchService = require("../services/dispatch.service");
+require("dotenv").config();
+const port = process.env.PORT;
 
 const loadDrone = async (req, res) => {
     try {
@@ -7,7 +9,7 @@ const loadDrone = async (req, res) => {
 
         let image;
         if (req.file) {
-            image = `http://localhost:8000/${req.file.path}`;
+            image = `http://localhost:${port}/${req.file.path}`;
         }
         const medication = {
             name,
