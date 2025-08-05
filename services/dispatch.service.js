@@ -8,7 +8,7 @@ const loadDrone = async (serial, medicationData) => {
             throw new Error("Drone not found");
         }
         const weight  = medicationData.weight;
-        const totalWeight = drone.medications.reduce((acc, medication) => acc + medication.weight, 0) + weight;
+        const totalWeight = drone.medications.reduce((acc, medication) => acc + medication.weight, 0) + Number(weight);
         if (totalWeight > drone.weight) {
             console.error(`Drone ${drone.serial} capacity exceeded!`);
             throw new Error("Drone capacity exceeded!");

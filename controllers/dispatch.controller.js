@@ -3,7 +3,18 @@ const dispatchService = require("../services/dispatch.service");
 const loadDrone = async (req, res) => {
     try {
         const { serial } = req.params;
-        const medication  = req.body;
+        const { name, weight, code } = req.body;
+
+        let image;
+        if (req.file) {
+            image = `http://localhost:8000/${req.file.path}`;
+        }
+        const medication = {
+            name,
+            weight,
+            code,
+            image
+        };
 
         const drone = await dispatchService.loadDrone(serial, medication);
         if (drone instanceof Error) {
@@ -15,7 +26,7 @@ const loadDrone = async (req, res) => {
     }
 };
 
-const getDroneMedications = async (req, res) => {   
+const getDroneMedications = async (req, res) => {
     try {
         const { serial } = req.params;
         const medications = await dispatchService.getMedications(serial);

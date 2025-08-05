@@ -13,18 +13,18 @@ mongoose.connect("mongodb://localhost:27017/drone-api", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-.then(() => {
-    console.log("Connected to MongoDB successfully");
-     app.listen(port, () => {
-        console.log(`Server is running on http://localhost:${port}`);
+    .then(() => {
+        console.log("Connected to MongoDB successfully");
+        app.listen(port, () => {
+            console.log(`Server is running on http://localhost:${port}`);
 
-        seedDrones();
-        require("./jobs/droneBattery");
+            seedDrones();
+            require("./jobs/droneBattery");
+        });
+    })
+    .catch((err) => {
+        console.error("Error connecting to MongoDB:", err);
     });
-})
-.catch((err) => {
-    console.error("Error connecting to MongoDB:", err);
-});
 
 
 
@@ -35,10 +35,12 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.status(200).json({ alive: "True" });
+    res.status(200).json({ alive: "True" });
 });
 
 app.use('/api', require('./routes/drone.route'));
 app.use('/api', require('./routes/dispatch.route'));
+
+app.use('/uploads', express.static('uploads'));
 
 module.exports = app;
