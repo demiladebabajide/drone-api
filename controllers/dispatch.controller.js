@@ -22,7 +22,7 @@ const loadDrone = async (req, res) => {
         if (drone instanceof Error) {
             return res.status(400).json({ message: drone.message });
         }
-        res.status(200).json({ message: `Drone ${serial} loaded successfully`, medication });
+        res.status(200).json({ message: `Drone ${serial} loaded successfully`, drone });
     } catch (error) {
         res.status(500).json({ message: "Error loading drone", error: error.message });
     }

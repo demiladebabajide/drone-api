@@ -1,26 +1,18 @@
 const express = require("express");
-require("dotenv").config();
+require("dotenv").config({path: `.env_test`});
 
 const mongoose = require("mongoose");
 const app = express();
 const MONGODB_URI = process.env.MONGODB_URI;
 const port = process.env.PORT;
 const cors = require("cors");
-const seedDrones = require("./seeds/drones");
 app.use(cors());
-const logger = require("./util/logger");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 mongoose.connect(MONGODB_URI)
     .then(() => {
-        logger.info("Connected to MongoDB successfully");
-        app.listen(port, () => {
-            logger.info(`Server is running on http://localhost:${port}`);
-
-            seedDrones();
-            require("./jobs/droneBattery");
-        });
+            console.log("Connected to MongoDB for testing at ", MONGODB_URI);
     })
     .catch((err) => {
         logger.error("Error connecting to MongoDB:", err);
