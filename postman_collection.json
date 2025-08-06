@@ -1,0 +1,289 @@
+{
+	"info": {
+		"_postman_id": "9b05c6a8-35b7-48fd-a679-f2fa36e9f826",
+		"name": "Drone API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7096614"
+	},
+	"item": [
+		{
+			"name": "Create Drone",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"serial\": \"003\",\n    \"model\": \"Cruiserweight\",\n    \"weight\": 350,\n    \"batteryCapacity\": 90\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/drones",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"drones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load Drone",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Panadol",
+							"type": "text"
+						},
+						{
+							"key": "weight",
+							"value": "150",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "PA_900_01",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/Users/demi/Downloads/panadol.jpeg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/api/drones/:serial/load",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"drones",
+						":serial",
+						"load"
+					],
+					"variable": [
+						{
+							"key": "serial",
+							"value": "003"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recharge Drone",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/drones/:serial/recharge",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"drones",
+						":serial",
+						"recharge"
+					],
+					"variable": [
+						{
+							"key": "serial",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Drones",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/drones",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"drones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Drone By Serial",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/drones/:serial",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"drones",
+						":serial"
+					],
+					"variable": [
+						{
+							"key": "serial",
+							"value": "003"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Drone Medications",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/drones/:serial/medications",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"drones",
+						":serial",
+						"medications"
+					],
+					"variable": [
+						{
+							"key": "serial",
+							"value": "003"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Drone Battery",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/drones/:serial/battery",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"drones",
+						":serial",
+						"battery"
+					],
+					"variable": [
+						{
+							"key": "serial",
+							"value": "001"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Available Drones",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/drones?state=idle",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"drones"
+					],
+					"query": [
+						{
+							"key": "state",
+							"value": "idle"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "localhost:8000",
+			"type": "string"
+		}
+	]
+}
